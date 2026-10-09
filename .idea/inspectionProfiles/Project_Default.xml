@@ -1,0 +1,27 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="streamlit" />
+          <option value="qiskit" />
+          <option value="qiskit-aer" />
+          <option value="qiskit-algorithms" />
+          <option value="qiskit-ibm-runtime" />
+          <option value="matplotlib" />
+          <option value="pandas" />
+          <option value="numpy" />
+          <option value="scipy" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyStubPackagesAdvertiser" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="pandas-stubs==3.0.3.260530" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
