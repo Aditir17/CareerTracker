@@ -1,0 +1,48 @@
+
+<nav class="navbar">
+    <div class="navbar-brand">
+        <h2>CareerTracker</h2>
+    </div>
+
+    <div class="nav-tabs">
+
+
+        <a href="/frontend/login" class="nav-tab">Login</a>
+
+
+
+        <a href="/frontend/logout" class="logout-btn">Logout</a>
+
+
+
+        <a href="/frontend"
+           class="nav-tab {% if request.url.path == '/frontend' %}active{% endif %}">
+            Dashboard
+        </a>
+
+        <a href="/frontend/companies"
+           class="nav-tab {% if request.url.path == '/frontend/companies' %}active{% endif %}">
+            Companies
+        </a>
+
+        <a href="/frontend/jobs"
+           class="nav-tab {% if request.url.path == '/frontend/jobs' %}active{% endif %}">
+            Jobs
+        </a>
+
+        <a href="/frontend/applications"
+           class="nav-tab {% if request.url.path == '/frontend/applications' %}active{% endif %}">
+            Applications
+        </a>
+
+        <a href="/frontend/interviews"
+           class="nav-tab {% if request.url.path == '/frontend/interviews' %}active{% endif %}">
+            Interviews
+        </a>
+
+        <a href="/frontend/contacts"
+           class="nav-tab {% if request.url.path == '/frontend/contacts' %}active{% endif %}">
+            Contacts
+        </a>
+    </div>
+</nav>

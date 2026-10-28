@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+
+{% block title %}Applications - CareerTracker{% endblock %}
+
+{% block content %}
+    <h1>Job Applications</h1>
+    <p>Track the jobs you've applied for and their current status.</p>
+
+    <div class="dashboard-card">
+        {% if applications %}
+            <p>Total applications: {{ applications|length }}</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Application ID</th>
+                            <th>Job Title</th>
+                            <th>Application Date</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for application in applications %}
+                            <tr>
+                                <td>{{ application.id }}</td>
+
+                                <td>
+                                    {% if application.job %}
+                                        {{ application.job.title }}
+                                    {% else %}
+                                        Job not linked
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ application.application_date or "Not provided" }}
+                                </td>
+
+
+                                <td>
+                                    {% if application.status %}
+                                        <span class="status status-{{ application.status|lower|replace(' ', '-') }}">
+                                            {{ application.status }}
+                                        </span>
+                                    {% else %}
+                                        <span class="status status-unknown">Not specified</span>
+                                    {% endif %}
+                                </td>
+
+
+                                <td>
+                                    {{ application.notes or "No notes" }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No applications found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from fastapi import Depends,HTTPException
 from jose import jwt, JWTError
 
-from database import SessionLocal
+from app.database import SessionLocal
 from fastapi.security import OAuth2PasswordBearer
 
 def get_db():

@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+
+{% block title %}Interviews - CareerTracker{% endblock %}
+
+{% block content %}
+    <h1>Interviews</h1>
+    <p>Keep track of your upcoming and completed interviews.</p>
+
+    <div class="dashboard-card">
+        {% if interviews %}
+            <p>Total interviews: {{ interviews|length }}</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Interview ID</th>
+                            <th>Job Title</th>
+                            <th>Interview Date</th>
+                            <th>Interview Type</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for interview in interviews %}
+                            <tr>
+                                <td>{{ interview.id }}</td>
+
+                                <td>
+                                    {% if interview.job %}
+                                        {{ interview.job.title }}
+                                    {% else %}
+                                        Job not linked
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ interview.interview_date or "Not provided" }}
+                                </td>
+
+                                <td>
+                                    {{ interview.interview_type or "Not specified" }}
+                                </td>
+
+                                <td>
+                                    {{ interview.notes or "No notes" }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No interviews found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

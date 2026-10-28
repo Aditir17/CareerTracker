@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Contacts - CareerTracker{% endblock %}
+
+{% block content %}
+    <h1>Company Contacts</h1>
+    <p>Keep track of recruiters and other company contacts.</p>
+
+    <div class="dashboard-card">
+        {% if contacts %}
+            <p>Total contacts: {{ contacts|length }}</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Contact ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Designation</th>
+                            <th>Company</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for contact in contacts %}
+                            <tr>
+                                <td>{{ contact.id }}</td>
+                                <td>{{ contact.name }}</td>
+                                <td>{{ contact.email or "Not provided" }}</td>
+                                <td>{{ contact.phone or "Not provided" }}</td>
+                                <td>{{ contact.designation or "Not provided" }}</td>
+                                <td>
+                                    {% if contact.company %}
+                                        {{ contact.company.name }}
+                                    {% else %}
+                                        Not linked
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No contacts found.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+

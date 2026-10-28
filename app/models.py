@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from sqlalchemy import DateTime
 
-from database import Base
+from app.database import Base
 
 class Users(Base):
     __tablename__="users"
@@ -66,7 +66,7 @@ class Applications(Base):
     __tablename__ = "applications"
 
     id = Column(Integer, primary_key=True, index=True)
-    job_id = Column(Integer, ForeignKey("jobs.id"))
+    job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     application_date = Column(Date)
     status = Column(String)

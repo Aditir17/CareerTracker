@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{% block title %}Jobs - CareerTracker{% endblock %}
+
+{% block content %}
+    <h1>Jobs</h1>
+    <p>View the job opportunities you're tracking.</p>
+
+    <div class="dashboard-card">
+        {% if jobs %}
+            <p>Total jobs: {{ jobs|length }}</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Job Title</th>
+                            <th>Location</th>
+                            <th>Company ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for job in jobs %}
+                            <tr>
+                                <td>{{ job.id }}</td>
+                                <td>{{ job.title }}</td>
+                                <td>{{ job.location or "Not provided" }}</td>
+                                <td>{{ job.company_id or "Not linked" }}</td>
+                                <td>{{ job.status or "Not specified" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No jobs found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

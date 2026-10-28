@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import Annotated
 
-import models
-from dependencies import get_db
-from schemas import ContactCreate, ContactResponse
+from app import models
+from app.dependencies import get_db
+from app.schemas import ContactCreate, ContactResponse
 
 router = APIRouter(
     prefix="/contacts",

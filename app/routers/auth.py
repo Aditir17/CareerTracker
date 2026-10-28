@@ -7,9 +7,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import Annotated
 
-import models
-from dependencies import get_db
-from schemas import CreateUser, UserResponse
+from app import models
+from app.dependencies import get_db
+from app.schemas import CreateUser, UserResponse
 
 router = APIRouter(
     prefix="/auth",

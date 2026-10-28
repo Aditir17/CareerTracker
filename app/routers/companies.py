@@ -2,10 +2,10 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import Annotated
 
-import models
-from dependencies import get_db, get_current_user
-from schemas import CompanyCreate, CompanyResponse, JobResponse
-from routers.auth import oauth2_bearer
+from app import models
+from app.dependencies import get_db, get_current_user
+from app.schemas import CompanyCreate, CompanyResponse, JobResponse
+from app.routers.auth import oauth2_bearer
 
 router=APIRouter(prefix="/companies",tags=["Companies"])
 
@@ -35,14 +35,6 @@ def get_all_companies(db: db_dependency,
     companies=db.query(models.Companies).filter(models.Companies.user_id==current_user).all()
     return companies
 
-@router.get("/{company_id}",response_model=CompanyResponse)
-def get_company_by_id(company_id:int,db:db_dependency):
-    company=db.query(models.Companies).filter(models.Companies.id==company_id).first()
-
-    if company is None:
-        raise HTTPException(status_code=404,detail="Company not found")
-
-    return company
 
 @router.put("/{company_id}",response_model=CompanyResponse)
 def update_company_by_id(company_id:int,company:CompanyCreate,db:Session=Depends(get_db)):
@@ -53,7 +45,7 @@ def update_company_by_id(company_id:int,company:CompanyCreate,db:Session=Depends
 
     company_db.name=company.name
     company_db.website=company.website
-    company_db.user_id=company.user_id
+
 
     db.commit()
     db.refresh(company_db)
@@ -86,11 +78,3 @@ def delete_company(
 
     return {"message": "Company deleted successfully"}
 
-@router.get("/{company_id}/jobs",response_model=list[JobResponse])
-def get_all_jobs_by_company_id(company_id:int,db:db_dependency):
-    company = db.query(models.Companies).filter(models.Companies.id == company_id).first()
-
-    if company is None:
-        raise HTTPException(status_code=404,detail="Company not found")
-
-    return company.jobs

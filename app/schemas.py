@@ -43,7 +43,7 @@ class JobResponse(BaseModel):
     description: str
     location: str
     company_id: int
-    status:str
+    status: str | None = None
 
     class Config:
         from_attributes=True
@@ -57,7 +57,7 @@ class InterviewCreate(BaseModel):
 
 class InterviewResponse(BaseModel):
     id: int
-    job_id: int
+    job_id: int | None=None
     interview_date: datetime
     interview_type: str
     notes: str
@@ -94,7 +94,7 @@ class ApplicationCreate(BaseModel):
 
 class ApplicationResponse(BaseModel):
     id: int
-    job_id: int
+    job_id: int | None = None
     user_id: int
     application_date: date
     status: str

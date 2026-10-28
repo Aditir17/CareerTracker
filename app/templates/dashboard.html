@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CareerTracker{% endblock %}
+
+{% block content %}
+
+<h1>Welcome to CareerTracker!</h1>
+<p>Manage your job applications in one place.</p>
+
+<!-- Summary cards -->
+<div class="summary-container">
+
+    <div class="summary-card">
+        <div class="summary-heading">
+            <span class="summary-label">Total Applications</span>
+            <span class="summary-icon icon-blue">A</span>
+        </div>
+        <p class="summary-number">{{ total_applications }}</p>
+        <p class="summary-description">Applications tracked</p>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-heading">
+            <span class="summary-label">Interviews</span>
+            <span class="summary-icon icon-purple">I</span>
+        </div>
+        <p class="summary-number">{{ interview_count }}</p>
+        <p class="summary-description">Interview stage</p>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-heading">
+            <span class="summary-label">Selected</span>
+            <span class="summary-icon icon-green">S</span>
+        </div>
+        <p class="summary-number">{{ selected_count }}</p>
+        <p class="summary-description">Selected applications</p>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-heading">
+            <span class="summary-label">Rejected</span>
+            <span class="summary-icon icon-red">R</span>
+        </div>
+        <p class="summary-number">{{ rejected_count }}</p>
+        <p class="summary-description">Rejected applications</p>
+    </div>
+
+</div>
+
+
+{% endblock %}

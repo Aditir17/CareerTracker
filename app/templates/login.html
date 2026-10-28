@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CareerTracker</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+
+    <style>
+        .login-box {
+            max-width: 420px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .login-box .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .login-box .field label {
+            display: block;
+            width: 100%;
+        }
+
+        .login-box .field input {
+            display: block;
+            width: 100%;
+            height: 42px;
+            padding: 10px;
+            border: 1px solid #e4e9f2;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .login-box button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <main class="container">
+        <div class="login-box">
+            <h1 style="text-align: center;">Login to CareerTracker</h1>
+            <p style="text-align: center;">Enter your account details to continue.</p>
+
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <form action="/frontend/login" method="post">
+                <div class="field">
+                    <label for="username">Email:</label>
+                    <input type="email" id="username" name="username" required>
+                </div>
+
+                <div class="field">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>

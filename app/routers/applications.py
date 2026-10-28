@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import Annotated
 
-import models
-from dependencies import get_db, get_current_user
-from schemas import ApplicationCreate, ApplicationResponse, ApplicationDashboard
+from app import models
+from app.dependencies import get_db, get_current_user
+from app.schemas import ApplicationCreate, ApplicationResponse, ApplicationDashboard
 
 
 router = APIRouter(prefix="/applications", tags=["Applications"])
@@ -93,18 +93,6 @@ def get_application_dashboard(
         "offer": offer
     }
 
-@router.get("/status/{status}", response_model=list[ApplicationResponse])
-def get_applications_by_status(
-    status: str,
-    db: db_dependency,
-    current_user: user_dependency
-):
-    applications = db.query(models.Applications).filter(
-        models.Applications.user_id == current_user,
-        models.Applications.status == status
-    ).all()
-
-    return applications
 
 @router.get("/limited", response_model=list[ApplicationResponse])
 def get_limited_applications(
@@ -121,29 +109,6 @@ def get_limited_applications(
 
     return applications
 
-@router.get("/{application_id}", response_model=ApplicationResponse)
-def get_application_by_id(
-    application_id: int,
-    db: db_dependency,
-    current_user: user_dependency
-):
-    application = db.query(models.Applications).filter(
-        models.Applications.id == application_id
-    ).first()
-
-    if application is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Application not found"
-        )
-
-    if application.user_id != current_user:
-        raise HTTPException(
-            status_code=403,
-            detail="You do not have permission to view this application"
-        )
-
-    return application
 
 @router.put("/{application_id}", response_model=ApplicationResponse)
 def update_application(

@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 from datetime import datetime
 
-import models
-from dependencies import get_db
-from schemas import InterviewResponse,InterviewCreate
+from app import models
+from app.dependencies import get_db
+from app.schemas import InterviewResponse,InterviewCreate
 
 router = APIRouter(
     prefix="/interviews",
