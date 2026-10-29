@@ -56,6 +56,94 @@ def get_all_jobs(
     jobs = db.query(models.Jobs).all()
     return jobs
 
+@router.get("/search")
+def search_job_by_title(job_title: str, db: db_dependency):
+    jobs = db.query(models.Jobs).filter(
+        models.Jobs.title.ilike(f"%{job_title}%")
+    ).all()
+
+    return jobs
+
+
+@router.get("/location", response_model=list[JobResponse])
+def search_job_by_location(location: str, db: db_dependency):
+    jobs = db.query(models.Jobs).filter(
+        models.Jobs.location.ilike(f"%{location}%")
+    ).all()
+
+    if not jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    return jobs
+
+
+@router.get("/location/title", response_model=list[JobResponse])
+def search_job_by_location_and_title(
+    location: str,
+    title: str,
+    db: db_dependency
+):
+    jobs = db.query(models.Jobs).filter(
+        models.Jobs.location.ilike(f"%{location}%"),
+        models.Jobs.title.ilike(f"%{title}%")
+    ).all()
+
+    if not jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+
+    return jobs
+
+
+@router.get("/limited", response_model=list[JobResponse])
+def get_jobs_by_limit(
+    db: db_dependency,
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1)
+):
+    offset = (page - 1) * limit
+
+    jobs = db.query(models.Jobs).offset(offset).limit(limit).all()
+
+    return jobs
+
+@router.get("/{job_id}", response_model=JobResponse)
+def get_job_by_id(
+    job_id: int,
+    db: db_dependency
+):
+    job = db.query(models.Jobs).filter(
+        models.Jobs.id == job_id
+    ).first()
+
+    if job is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Job not found"
+        )
+
+    return job
+
+@router.get("/{job_id}/interviews", response_model=list[InterviewResponse])
+def get_all_interviews_for_job(
+    job_id: int,
+    db: db_dependency
+):
+    job = db.query(models.Jobs).filter(
+        models.Jobs.id == job_id
+    ).first()
+
+    if job is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Job not found"
+        )
+
+    interviews = db.query(models.Interviews).filter(
+        models.Interviews.job_id == job_id
+    ).all()
+
+    return interviews
+
 @router.put("/{job_id}",response_model=JobResponse)
 def update_job_by_id(job_id:int,job:JobCreate,db:db_dependency):
 

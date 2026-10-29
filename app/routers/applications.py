@@ -94,6 +94,22 @@ def get_application_dashboard(
     }
 
 
+@router.get("/status/{status}", response_model=list[ApplicationResponse])
+def get_applications_by_status(
+    status: str,
+    db: db_dependency,
+    current_user: user_dependency
+):
+    applications = db.query(models.Applications).filter(
+        models.Applications.user_id == current_user,
+        models.Applications.status == status
+    ).all()
+
+    return applications
+
+
+
+
 @router.get("/limited", response_model=list[ApplicationResponse])
 def get_limited_applications(
     db: db_dependency,
@@ -108,6 +124,32 @@ def get_limited_applications(
     ).offset(skip).limit(limit).all()
 
     return applications
+
+
+@router.get("/{application_id}", response_model=ApplicationResponse)
+def get_application_by_id(
+    application_id: int,
+    db: db_dependency,
+    current_user: user_dependency
+):
+    application = db.query(models.Applications).filter(
+        models.Applications.id == application_id
+    ).first()
+
+    if application is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Application not found"
+        )
+
+    if application.user_id != current_user:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not have permission to view this application"
+        )
+
+    return application
+
 
 
 @router.put("/{application_id}", response_model=ApplicationResponse)

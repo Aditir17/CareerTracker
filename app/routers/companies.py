@@ -36,6 +36,23 @@ def get_all_companies(db: db_dependency,
     return companies
 
 
+@router.get("/{company_id}", response_model=CompanyResponse)
+def get_company_by_id(
+    company_id: int,
+    db: db_dependency
+):
+    company = db.query(models.Companies).filter(
+        models.Companies.id == company_id
+    ).first()
+
+    if company is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Company not found"
+        )
+
+    return company
+
 @router.put("/{company_id}",response_model=CompanyResponse)
 def update_company_by_id(company_id:int,company:CompanyCreate,db:Session=Depends(get_db)):
     company_db=db.query(models.Companies).filter(models.Companies.id==company_id).first()
@@ -77,4 +94,23 @@ def delete_company(
     db.commit()
 
     return {"message": "Company deleted successfully"}
+
+
+@router.get("/{company_id}/jobs", response_model=list[JobResponse])
+def get_all_jobs_by_company_id(
+    company_id: int,
+    db: db_dependency
+):
+    company = db.query(models.Companies).filter(
+        models.Companies.id == company_id
+    ).first()
+
+    if company is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Company not found"
+        )
+
+    return company.jobs
+
 
